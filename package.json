@@ -1,0 +1,20 @@
+{
+  "name": "reactopus-monorepo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "cd ./packages/test-app && yarn dev"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "jest": {
+    "projects": [
+      "<rootDir>/packages/*"
+    ]
+  }
+}

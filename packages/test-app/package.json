@@ -1,0 +1,17 @@
+{
+  "name": "@reactopus/test-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "NODE_ENV=development ts-node-dev -r dotenv/config --inspect --no-notify --transpile-only ./src/index.ts"
+  },
+  "devDependencies": {
+    "ts-node-dev": "^1.0.0-pre.44",
+    "typescript": "^3.7.2"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "js-yaml": "^3.13.1"
+  }
+}
