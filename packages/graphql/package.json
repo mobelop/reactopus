@@ -9,10 +9,12 @@
     "apollo-boost": "^0.4.4",
     "apollo-link-http": "^1.5.16",
     "apollo-server-express": "^2.9.13",
+    "express": "^4.17.1",
     "graphql": "^14.5.8",
     "nexus": "^0.12.0-rc.5",
     "node-fetch": "^2.6.0",
     "react": "^16.12.0",
+    "@reactopus/ioc": "1.0.0",
     "react-dom": "^16.12.0"
   },
   "devDependencies": {

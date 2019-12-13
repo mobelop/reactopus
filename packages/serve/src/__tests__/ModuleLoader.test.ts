@@ -1,0 +1,3 @@
+it("module loading works", () => {
+  //
+});

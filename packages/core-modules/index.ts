@@ -1,5 +1,3 @@
-import express from "express";
+import HttpServer from "./modules/http/components/HttpServer";
 
-export interface HttpServer {
-    app: express.Express
-}
+export { HttpServer };

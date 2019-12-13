@@ -1,7 +1,7 @@
 import { pluginContext, registry } from "./registry";
 
 export function ComponentPlugin(component: string) {
-  return function(constructor: Function) {
+  return (constructor: any) => {
     if (!pluginContext[component]) {
       pluginContext[component] = {};
     }

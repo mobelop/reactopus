@@ -1,27 +1,25 @@
 import { Component, getInstance } from "@reactopus/ioc";
+import { ModuleLoader } from "@reactopus/serve";
 import express from "express";
 import * as http from "http";
-import { ModuleLoader } from "@reactopus/serve";
 
 @Component("server/http")
 export default class HttpServer {
-  app: express.Express;
-  loader: ModuleLoader;
+  public app: express.Express;
+  public loader: ModuleLoader;
 
-  async init(loader: ModuleLoader) {
+  public async init(loader: ModuleLoader) {
     this.app = express();
     this.loader = loader;
     await this.applyMiddlewares();
   }
 
-  async applyMiddlewares() {
+  public async applyMiddlewares() {
     const manifests = this.loader.getManifests();
 
     for (const manifest of manifests) {
       if (manifest.routes) {
         for (const [path, value] of Object.entries(manifest.routes)) {
-          console.log("ROUTE:", path, value);
-
           // @ts-ignore
           const handler = getInstance<any>(value);
 
@@ -33,13 +31,11 @@ export default class HttpServer {
     }
   }
 
-  async start(): Promise<http.Server> {
-    console.log("in HttpServer start");
-
-    return this.app.listen(4111, () =>
-      console.log(
-        `Web server is running on http://${process.env.VIRTUAL_HOST}:4111`
-      )
-    );
+  public async start(): Promise<http.Server> {
+    return this.app.listen(4111, () => {
+      // console.log(
+      //   `Web server is running on http://${process.env.VIRTUAL_HOST}:4111`
+      // )
+    });
   }
 }

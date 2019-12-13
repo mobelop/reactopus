@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "dotenv": "^8.2.0",
-    "js-yaml": "^3.13.1"
+    "js-yaml": "^3.13.1",
+    "@reactopus/ioc": "^1.0",
+    "@reactopus/serve": "^1.0"
   }
 }

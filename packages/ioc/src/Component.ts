@@ -1,7 +1,7 @@
-import { registry, pluginContext, components } from "./registry";
+import { components, pluginContext, registry } from "./registry";
 
 export function Component(component: string) {
-  const rewriteMethods = (constructor: Function) => {
+  const rewriteMethods = (constructor: any) => {
     // has a plugin?
     if (registry[component]) {
       const plugins = registry[component];
@@ -24,22 +24,23 @@ export function Component(component: string) {
             // console.log("override", method);
             constructor.prototype[method] = function() {
               // @ts-ignore
-              for (const plugin of plugins) {
-                plugin["before" + name] &&
-                  plugin["before" + name].apply(pluginContext[component], [
+              for (const pluginEntry of plugins) {
+                if (pluginEntry["before" + name]) {
+                  pluginEntry["before" + name].apply(pluginContext[component], [
                     this,
                     // @ts-ignore
                     ...arguments
                   ]);
+                }
               }
 
               // @ts-ignore
-              let result = undefined;
+              let result;
               let hasAroundPlugin = false;
-              for (const plugin of plugins) {
-                if (plugin["around" + name]) {
+              for (const pluginEntry of plugins) {
+                if (pluginEntry["around" + name]) {
                   hasAroundPlugin = true;
-                  result = plugin["around" + name].apply(
+                  result = pluginEntry["around" + name].apply(
                     pluginContext[component],
                     [
                       this,
@@ -56,14 +57,15 @@ export function Component(component: string) {
               }
 
               // @ts-ignore
-              for (const plugin of plugins) {
-                plugin["after" + name] &&
-                  plugin["after" + name].apply(pluginContext[component], [
+              for (const pluginEntry of plugins) {
+                if (pluginEntry["after" + name]) {
+                  pluginEntry["after" + name].apply(pluginContext[component], [
                     this,
                     result,
                     // @ts-ignore
                     ...arguments
                   ]);
+                }
               }
 
               return result;
@@ -74,7 +76,7 @@ export function Component(component: string) {
     }
   };
 
-  return function(constructor: Function) {
+  return (constructor: any) => {
     rewriteMethods(constructor);
     components[component] = constructor;
   };

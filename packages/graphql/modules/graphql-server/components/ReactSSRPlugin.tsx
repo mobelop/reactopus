@@ -1,12 +1,12 @@
-import { ApolloClient, InMemoryCache } from "apollo-boost";
-import { ComponentPlugin } from "@reactopus/ioc";
-import React from "react";
-import { GraphQLSchema } from "graphql";
-import { createHttpLink } from "apollo-link-http";
 import { ApolloProvider } from "@apollo/react-common";
+import { getDataFromTree } from "@apollo/react-ssr";
+import { ComponentPlugin } from "@reactopus/ioc";
+import { ApolloClient, InMemoryCache } from "apollo-boost";
+import { createHttpLink } from "apollo-link-http";
+import { GraphQLSchema } from "graphql";
 // @ts-ignore
 import fetch from "node-fetch";
-import { getDataFromTree } from "@apollo/react-ssr";
+import React from "react";
 
 export function getClient() {
   // schema: GraphQLSchema, context: Object
@@ -24,8 +24,8 @@ export function getClient() {
     // }),
 
     link: createHttpLink({
-      uri: "http://0.0.0.0:7080/graphql",
-      fetch
+      fetch,
+      uri: "http://0.0.0.0:7080/graphql"
     }),
 
     cache
@@ -36,25 +36,25 @@ export function getClient() {
 
 @ComponentPlugin("server/react-ssr")
 export default class ReactSSRPlugin {
-  afterGetTree(
+  public afterGetTree(
     self: any,
     result: React.ReactElement<any>,
     renderContext: any
   ): React.ReactElement<any> {
-    console.log("in react ssr plugin");
+    // console.log("in react ssr plugin");
     const client = getClient();
-    renderContext['client'] = client
+    renderContext.client = client;
     return <ApolloProvider client={client}>{result}</ApolloProvider>;
   }
 
-  async aroundRender(self: any, original: Function, args: any) {
+  public async aroundRender(self: any, original: () => void, args: any) {
     const tree = args[0];
     const renderContext = args[1];
 
     await getDataFromTree(tree);
 
-    console.log('client state:', renderContext.client.extract())
+    // console.log('client state:', renderContext.client.extract())
 
-    return await original.apply(self, args);
+    return original.apply(self, args);
   }
 }

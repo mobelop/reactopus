@@ -5,16 +5,14 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "cd ./packages/test-app && yarn dev"
+    "dev": "cd ./packages/test-app && yarn dev",
+    "test": "jest",
+    "tslint": "tslint --project tsconfig.json",
+    "tslint:fix": "tslint --project tsconfig.json --fix"
   },
   "workspaces": {
     "packages": [
       "packages/*"
-    ]
-  },
-  "jest": {
-    "projects": [
-      "<rootDir>/packages/*"
     ]
   }
 }

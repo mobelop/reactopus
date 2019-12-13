@@ -1,18 +1,18 @@
-import { AppConfig } from "./AppConfig";
-import path from "path";
 import * as fs from "fs";
+import path from "path";
+import { AppConfig } from "./AppConfig";
 
-interface Route {
+interface IRoute {
   [path: string]: string;
 }
 
-interface Manifest {
-  routes?: Route[];
+interface IManifest {
+  routes?: IRoute[];
 }
 
 export class ModuleLoader {
-  rootDirs: string[];
-  manifests: Manifest[];
+  public rootDirs: string[];
+  public manifests: IManifest[];
 
   constructor() {
     const reactopusCoreDir = path.resolve(
@@ -30,13 +30,11 @@ export class ModuleLoader {
     ];
   }
 
-  getManifests(): Manifest[] {
+  public getManifests(): IManifest[] {
     return this.manifests;
   }
 
-  load() {
-    console.log("loading modules from:", this.rootDirs);
-
+  public load() {
     const coreModules = ["graphql-server", "react-ssr", "http"];
     const modules = [...coreModules, ...AppConfig.get("modules", [])];
 
@@ -46,37 +44,34 @@ export class ModuleLoader {
           const fullPath = require.resolve(
             path.join(rootDir, modName, "manifest.json")
           );
-          console.log("loading:", modName, fullPath);
           this.loadModule(fullPath);
-        } catch (e) {}
+        } catch (e) {
+          // ignore
+        }
       }
     }
   }
 
-  loadModule(manifestPath: string) {
+  public loadModule(manifestPath: string) {
     const manifest = require(manifestPath);
     const modulePath = path.dirname(manifestPath);
-    // console.log("manifest", manifest);
     const componentsDir = path.join(modulePath, "components");
 
     this.manifests.push(manifest);
 
     if (fs.existsSync(componentsDir)) {
       const components = fs.readdirSync(componentsDir);
-      // console.log("components", components);
-
       // plugins first
       for (const componentFile of components) {
         if (componentFile.includes("Plugin")) {
-          // console.log("-- require plugin:", componentFile);
           require(path.join(componentsDir, componentFile));
         }
       }
 
       for (const componentFile of components) {
-        if (componentFile.includes("Plugin")) continue;
-
-        // console.log("-- require:", componentFile);
+        if (componentFile.includes("Plugin")) {
+          continue;
+        }
         require(path.join(componentsDir, componentFile));
       }
     }

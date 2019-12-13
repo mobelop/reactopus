@@ -16,7 +16,7 @@
     "baseUrl": ".",
     "rootDir": ".",
     "outDir": "dist",
-    
+
     "paths": {
       "~/*": ["packages/*"],
       "@reactopus/*": ["packages/*"]
