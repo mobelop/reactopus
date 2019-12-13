@@ -1,5 +1,6 @@
 import { Component } from "@reactopus/ioc";
 import express from "express";
+import * as path from "path";
 import React from "react";
 // tslint:disable-next-line:no-submodule-imports
 import { renderToString } from "react-dom/server";
@@ -22,6 +23,22 @@ export default class ReactSSR {
   }
 
   private async getTree(renderContext: any): Promise<React.ReactElement<any>> {
-    return <div>Test SSR</div>;
+    const App = require(path.join(process.cwd(), "client", "App")).default;
+    const assets = require(path.join(
+      process.cwd(),
+      "pub",
+      "static",
+      "manifest.json"
+    ));
+
+    return (
+      <html>
+        <head />
+        <div id="root">
+          <App />
+        </div>
+        <script src={assets["app.js"] ? assets["app.js"] : "/static/app.js"} />
+      </html>
+    );
   }
 }

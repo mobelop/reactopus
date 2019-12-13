@@ -1,3 +1,3 @@
-it("module loading works", () => {
+test("module loading works", () => {
   //
 });
