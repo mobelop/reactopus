@@ -1,3 +1,3 @@
 module.exports = {
-    "*.{js,jsx,graphql,yml,md}": ["yarn prettier --write", "git add"],
+    "*.{ts,tsx,js,jsx,graphql,yml,md}": ["yarn prettier --write", "tslint", "git add"],
 };
