@@ -7,7 +7,8 @@
     "@reactopus/core-modules": "^1.0",
     "@reactopus/ioc": "^1.0",
     "config": "^3.2.4",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "jest": "^24.9.0"
   },
   "devDependencies": {
     "@types/config": "^0.0.36",
