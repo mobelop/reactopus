@@ -1,0 +1,15 @@
+{
+  "name": "@reactopus/auth",
+  "version": "1.0.0",
+  "main": "./index.ts",
+  "license": "MIT",
+  "dependencies": {
+    "@reactopus/core-modules": "^1.0",
+    "@reactopus/ioc": "^1.0",
+    "express": "^4.17.1",
+    "passport": "^0.4.1"
+  },
+  "devDependencies": {
+    "@types/passport": "^1.0.2"
+  }
+}

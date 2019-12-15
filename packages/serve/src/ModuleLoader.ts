@@ -26,7 +26,8 @@ export class ModuleLoader {
         path.dirname(require.resolve("@reactopus/core-modules")),
         "modules"
       ),
-      path.join(path.dirname(require.resolve("@reactopus/graphql")), "modules")
+      path.join(path.dirname(require.resolve("@reactopus/graphql")), "modules"),
+      path.join(path.dirname(require.resolve("@reactopus/auth")), "modules")
     ];
   }
 
